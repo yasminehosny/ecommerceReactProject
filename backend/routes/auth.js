@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
-const { register, login, getMe } = require("../controllers/authController");
-const { protect } = require("../middleware/auth");
+const { register, login, getMe, registerAdmin } = require("../controllers/authController");
+const { protect, adminOnly } = require("../middleware/auth");
 
 // Validation rules
 const registerValidation = [
@@ -12,15 +12,16 @@ const registerValidation = [
   body("confirmPassword").custom((value, { req }) => {
     if (value !== req.body.password) throw new Error("Passwords do not match");
     return true;
-  }),
+  })
 ];
 
 const loginValidation = [
   body("email").isEmail().withMessage("Please enter a valid email"),
-  body("password").notEmpty().withMessage("Password is required"),
+  body("password").notEmpty().withMessage("Password is required")
 ];
 
 // Routes
+router.post("/register-admin", protect, adminOnly, registerValidation, registerAdmin);
 router.post("/register", registerValidation, register);
 router.post("/login", loginValidation, login);
 router.get("/me", protect, getMe);
