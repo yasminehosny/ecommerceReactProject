@@ -118,3 +118,33 @@ export const createOrderAPI = async (orderData) => {
   if (!res.ok) throw new Error(data.message || "Failed to create order");
   return data;
 };
+
+// ===== ADMIN =====
+export const createCategoryAPI = async (formData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${BASE_URL}/categories`, {
+    method: "POST",
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    body: formData,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to create category");
+  return data;
+};
+
+export const createProductAPI = async (formData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${BASE_URL}/products`, {
+    method: "POST",
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    body: formData,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to create product");
+  return data;
+};
+

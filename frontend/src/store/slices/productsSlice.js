@@ -36,7 +36,6 @@ const productsSlice = createSlice({
       category: "",
       minPrice: "",
       maxPrice: "",
-      size: "",
     },
     loading: false,
     error: null,
@@ -49,7 +48,7 @@ const productsSlice = createSlice({
       state.filters = { ...state.filters, ...action.payload };
     },
     clearFilters: (state) => {
-      state.filters = { category: "", minPrice: "", maxPrice: "", size: "" };
+      state.filters = { category: "", minPrice: "", maxPrice: "" };
     },
   },
   extraReducers: (builder) => {

@@ -2,8 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setFilters, clearFilters } from "../store/slices/productsSlice";
 import { fetchProducts } from "../store/slices/productsSlice";
 
-const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
-
 export default function FilterBar() {
   const dispatch = useDispatch();
   const { filters, categories } = useSelector((state) => state.products);
@@ -55,18 +53,6 @@ export default function FilterBar() {
           value={filters.maxPrice}
           onChange={handleChange}
         />
-      </div>
-
-      <div className="filter-group">
-        <label>Size</label>
-        <select name="size" value={filters.size} onChange={handleChange}>
-          <option value="">All Sizes</option>
-          {SIZES.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="filter-actions">

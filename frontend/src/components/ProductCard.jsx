@@ -29,14 +29,33 @@ export default function ProductCard({ product, onNavigate }) {
     <div className="product-card" onClick={handleViewDetails} style={{ display: "flex", flexDirection: "column", height: "100%", cursor: "pointer" }}>
       <div className="product-img-wrapper">
         <img src={imageUrl} alt={product.name} className="product-img" />
-        {product.size && <span className="size-badge">{product.size}</span>}
       </div>
       <div className="product-info d-flex flex-column flex-grow-1">
         <h3 className="product-name">{product.name}</h3>
         <p className="product-desc">{product.description}</p>
         
         <div className="product-footer mt-auto pt-3">
-          <span className="product-price" style={{ color: "var(--accent)" }}>{product.price} EGP</span>
+          {product.discount > 0 ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+              <span style={{ color: "var(--text-muted)", fontSize: "0.82rem", textDecoration: "line-through" }}>
+                {product.price} EGP
+              </span>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span className="product-price" style={{ color: "var(--accent)" }}>
+                  {(product.price * (1 - product.discount / 100)).toFixed(2)} EGP
+                </span>
+                <span style={{
+                  background: "rgba(224,86,86,0.15)", color: "#f08080",
+                  fontSize: "0.72rem", fontWeight: "700", padding: "2px 7px",
+                  borderRadius: "20px", border: "1px solid rgba(224,86,86,0.3)"
+                }}>
+                  -{product.discount}%
+                </span>
+              </div>
+            </div>
+          ) : (
+            <span className="product-price" style={{ color: "var(--accent)" }}>{product.price} EGP</span>
+          )}
           {product.quantity !== undefined && (
             <span
               className={`stock-badge ${product.quantity > 0 ? "in-stock" : "out-stock"}`}

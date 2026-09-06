@@ -28,7 +28,7 @@ const cleanupUploadedImages = async (uploadedImages = []) => {
 // Get a list of products with filtering, sorting and pagination (GET /api/products) — public
 const getProducts = async (req, res) => {
   try {
-    const { category, minPrice, maxPrice, size, sort, search, page = 1, limit = 12 } = req.query;
+    const { category, minPrice, maxPrice, sort, search, page = 1, limit = 12 } = req.query;
 
     const filter = {};
 
@@ -39,8 +39,6 @@ const getProducts = async (req, res) => {
         : await Category.findOne({ slug: category });
       if (cat) filter.category = cat._id;
     }
-
-    if (size) filter.size = size;
     if (minPrice || maxPrice) {
       filter.price = {};
       if (minPrice) filter.price.$gte = Number(minPrice);
@@ -92,7 +90,7 @@ const getProduct = async (req, res) => {
 // Create a new product with optional images (POST /api/products) — admin only
 const createProduct = async (req, res) => {
   try {
-    const { name, price, description, category, size, quantity } = req.body;
+    const { name, price, description, category, quantity } = req.body;
 
     const cat = await Category.findById(category);
     if (!cat) {
@@ -109,7 +107,6 @@ const createProduct = async (req, res) => {
       price,
       description,
       category: cat._id,
-      size,
       quantity,
       images,
       createdBy: req.user._id,

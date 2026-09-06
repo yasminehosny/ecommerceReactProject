@@ -226,30 +226,39 @@ export default function ProductDetails({ productId, onNavigate }) {
               </h1>
 
               {/* Price & Stock status */}
-              <div className="d-flex align-items-center gap-4 mb-4">
-                <span className="fs-3 fw-bold" style={{ color: "var(--accent)" }}>
-                  {product.price} EGP
-                </span>
+              <div className="d-flex align-items-center gap-4 mb-4 flex-wrap">
+                {product.discount > 0 ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <span style={{
+                      color: "var(--text-muted)", fontSize: "1rem",
+                      textDecoration: "line-through", fontWeight: "500"
+                    }}>
+                      {product.price} EGP
+                    </span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <span className="fs-3 fw-bold" style={{ color: "var(--accent)" }}>
+                        {(product.price * (1 - product.discount / 100)).toFixed(2)} EGP
+                      </span>
+                      <span style={{
+                        background: "rgba(224,86,86,0.15)", color: "#f08080",
+                        fontSize: "0.85rem", fontWeight: "700", padding: "4px 12px",
+                        borderRadius: "20px", border: "1px solid rgba(224,86,86,0.35)"
+                      }}>
+                        -{product.discount}% OFF
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <span className="fs-3 fw-bold" style={{ color: "var(--accent)" }}>
+                    {product.price} EGP
+                  </span>
+                )}
                 
                 <span className={`stock-badge px-3 py-1 fw-medium fs-6 rounded-pill ${product.quantity > 0 ? "in-stock" : "out-stock"}`}>
                   {product.quantity > 0 ? `In Stock – ${product.quantity} left` : "Out of stock"}
                 </span>
               </div>
 
-              {/* Size Badge */}
-              {product.size && product.size !== "N/A" && (
-                <div className="mb-4">
-                  <span className="d-block small text-uppercase fw-semibold text-muted mb-2">Available Size</span>
-                  <span className="px-3 py-2 fw-bold text-center d-inline-block rounded-3" style={{ 
-                    backgroundColor: "var(--bg-elevated)", 
-                    border: "1px solid var(--border-subtle)", 
-                    color: "var(--text-primary)",
-                    minWidth: "48px"
-                  }}>
-                    {product.size}
-                  </span>
-                </div>
-              )}
 
               {/* Description */}
               <div className="mb-5 pt-3" style={{ borderTop: "1px solid var(--border-subtle)" }}>

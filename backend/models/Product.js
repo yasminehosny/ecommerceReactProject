@@ -22,15 +22,17 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: [true, "Category is required"],
     },
-    size: {
-      type: String,
-      enum: ["XS", "S", "M", "L", "XL", "XXL", "one-size", "N/A"],
-      default: "N/A",
-    },
     quantity: {
       type: Number,
       required: [true, "Quantity is required"],
       min: [0, "Quantity cannot be negative"],
+      default: 0,
+    },
+    // Optional discount percentage (0–100). If set, discountedPrice = price * (1 - discount/100)
+    discount: {
+      type: Number,
+      min: [0, "Discount cannot be negative"],
+      max: [100, "Discount cannot exceed 100%"],
       default: 0,
     },
     // Array of image URLs (Cloudinary) or legacy filenames (max 10)
